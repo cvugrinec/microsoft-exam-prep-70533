@@ -1,0 +1,75 @@
+{
+        "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+        "parameters": {
+                "vmName": {
+                        "type": "string",
+                        "metadata": {
+                        "description": "Name of the VM"
+                        }
+                }
+        },
+        "variables": {
+                "api-version": "2015-06-15",
+                "addressPrefix": "10.0.0.0/16",
+                "subnetName": "Subnet",
+                "subnetPrefix": "10.0.0.0/24",
+                "publicIPAddressType": "Dynamic",
+                "virtualNetworkName": "chrisvnetwork",
+                "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+                "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+                "nicName": "[concat(parameters('vmName'),'-nic')]",
+                "publicIpAddressName": "[concat(parameters('vmName'),'-nic')]"
+        },
+        "resources": [{
+                        "apiVersion": "[variables('api-version')]",
+                        "type": "Microsoft.Network/virtualNetworks",
+                        "name": "[variables('virtualNetworkName')]",
+                        "location": "[resourceGroup().location]",
+                        "properties": {
+                                "addressSpace": {
+                                        "addressPrefixes": [
+                                                "[variables('addressPrefix')]"
+                                        ]
+                                },
+                                "subnets": [{
+                                        "name": "[variables('subnetName')]",
+                                        "properties": {
+                                                "addressPrefix": "[variables('subnetPrefix')]"
+                                        }
+                                }]
+                        }
+               }, {
+                        "apiVersion": "[variables('api-version')]",
+                        "type": "Microsoft.Network/networkInterfaces",
+                        "name": "[variables('nicName')]",
+                        "location": "[resourceGroup().location]",
+                        "dependsOn": [
+                                "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIpAddressName'))]",
+                                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+                        ],
+                        "properties": {
+                                "ipConfigurations": [{
+                                        "name": "ipconfig2",
+                                        "properties": {
+                                                "privateIPAllocationMethod": "Dynamic",
+                                                "publicIPAddress": {
+                                                        "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIpAddressName'))]"
+                                                },
+                                                "subnet": {
+                                                        "id": "[variables('subnetRef')]"
+                                                }
+                                        }
+                                }]
+                        }
+                }, {
+                        "apiVersion": "[variables('api-version')]",
+                        "type": "Microsoft.Network/publicIPAddresses",
+                        "name": "[variables('publicIpAddressName')]",
+                        "location": "[resourceGroup().location]",
+                        "properties": {
+                                "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
+                        }
+                }
+        ]
+}

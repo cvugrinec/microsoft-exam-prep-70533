@@ -1,0 +1,21 @@
+=========================================
+=
+=       file:   01-DEMO-createCert.txt
+=       author: chvugrin@microsoft.com
+=       description:
+=                You will create a certificate, for automatic login...
+=                This is intended to show how automation is possible
+=
+=========================================
+- Azure login
+- openssl req -x509 -days 3650 -newkey rsa:2048 -out cert.pem -nodes -subj '/CN=[NAME OF YOUR APP]'
+- Copy certifcate
+- Create a COMBINED CERT FILE by combining private and cert, for eg cat privkey.pem cert.pem > examplecert.pem
+- azure ad app create -n [NAME OF YOUR APP] --home-page http://[URL ID] --identifier-uris https://[URL ID]/[SOMETHIN] --cert-value '$cert'
+- Create sp (service principal) based on APPID (see output previous command)
+- azure ad sp create -n [NAME OF YOUR APP] [APP ID, see output previous command]
+- Assign proper Contributor role to newly created object
+- azure role assignment create --objectId [ OBJECT ID, see output previous command ] -o Contributor -c /subscriptions/[subscription id]/
+- Get SHA1 fingerprint: openssl x509 -in "YOUR COMBINED CERRT FILE" -fingerprint -noout
+- Now you can use the following command to automatically login via a script:
+     azure login --service-principal --tenant [ TENANT ID ] -u [ OBJECT ID ] --certificate-file [ YOUR COMBINED CERT FILE ] --thumbprint [ YOUR SHA1 PRINT, see previous command"]
