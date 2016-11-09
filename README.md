@@ -3,24 +3,25 @@
 
     Prerequisites
 
-    ## Azure Subscription with proper rights
-    ## A machine running Docker
+    * Azure Subscription with proper rights
+    * A machine running Docker
+    * Not using it, but adviseable to use for prep: PowerShell
 
 
 * Program
-** check the powerpt: talk about azure
-** Virtual Machines
-*** Bunch of slides
-*** Lab, scripts are in docker but also here in the REPO
-*** Demo, create certificate, upload Hyper V image, ScaleSet demo
-** Storage
-*** Bunch of slides
-*** Lab
-** Network
-*** Bunch of slides
-*** Lab
-** Certification
-*** Tip and links
+  * check the powerpt: talk about azure
+  * Virtual Machines
+    * Bunch of slides
+    * Lab, scripts are in docker but also here in the REPO
+    * Demo, create certificate, upload Hyper V image, ScaleSet demo
+  * Storage
+    * Bunch of slides
+    * Lab
+  * Network
+    * Bunch of slides
+    * Lab
+  * Certification
+    * Tip and links
 
 This Lab uses a docker image which contains the LAB stuff you require, azure-cli already installed.
 #### docker run -it cvugrinec/microsoft-prep70533
