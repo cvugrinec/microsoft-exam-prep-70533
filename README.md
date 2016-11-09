@@ -23,6 +23,7 @@
 *** Tip and links
 
 This Lab uses a docker image which contains the LAB stuff you require, azure-cli already installed.
+#### docker run -it cvugrinec/microsoft-prep70533
 Here is a template you can start using right away: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fapache2-on-ubuntu-vm%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
